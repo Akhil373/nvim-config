@@ -8,5 +8,6 @@ return {
     lazy = false, 
     config = function()
         vim.keymap.set('n', '<C-n>', ':Neotree toggle<CR>')
-    end
+        vim.keymap.set('n', '<C-a>', ':Neotree action=focus<CR>')
+   end
 }
