@@ -5,6 +5,7 @@ vim.g.maplocalleader = "\\"
 vim.opt.guifont = "JetBrains Mono:h17"
 vim.opt.number = true
 
+vim.opt.wrap = true
 vim.opt.relativenumber = true
 
 vim.opt.splitbelow = true
@@ -17,6 +18,9 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 
 vim.opt.clipboard = "unnamedplus"
+
+vim.o.shell = "powershell.exe"
+vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy Bypass -Command"
 
 vim.opt.scrolloff = 999
 
@@ -34,3 +38,9 @@ vim.keymap.set("n", "<A-S-Down>", ":m .+1<CR>==", { noremap = true, silent = tru
 vim.keymap.set("n", "<A-S-Up>", ":m .-2<CR>==", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-S-Down>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 vim.keymap.set("v", "<A-S-Up>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+
+vim.keymap.set("n", "<C-s>", ":w<CR>")
+
+vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+
+vim.keymap.set("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)

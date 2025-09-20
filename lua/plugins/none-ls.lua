@@ -6,18 +6,24 @@ return {
     config = function()
         local null_ls = require("null-ls")
         local sources = {
-            require("none-ls.formatting.ruff").with {
+            require("none-ls.formatting.ruff").with({
                 extra_args = { "--extend-select", "I" },
-            },
+            }),
             require("none-ls.formatting.ruff_format"),
-            null_ls.builtins.formatting.prettier.with {
+            null_ls.builtins.formatting.prettier.with({
                 filetypes = { "json", "yaml", "markdown" },
-            },
-            -- example: clang-format with custom args
-            null_ls.builtins.formatting.clang_format.with {
-                args = { "-i", "--style=Google" },
-            },
+            }),
+            null_ls.builtins.formatting.clang_format.with({
+                args = { "-i", "--style = {BasedOnStyle: Google, IndentWidth: 4}" },
+            }),
             null_ls.builtins.formatting.stylua,
+            null_ls.builtins.formatting.gofumpt,
+            null_ls.builtins.formatting.goimports,
+
+            null_ls.builtins.diagnostics.pylint,
+            null_ls.builtins.diagnostics.golangci_lint,
+            -- null_ls.builtins.diagnostics.ruff,
+            -- null_ls.builtins.diagnostics.eslint_d,
         }
 
         local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
@@ -45,4 +51,3 @@ return {
         })
     end,
 }
-

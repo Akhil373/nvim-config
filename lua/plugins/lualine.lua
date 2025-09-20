@@ -1,7 +1,6 @@
 return {
     "nvim-lualine/lualine.nvim",
     config = function()
-        -- Adapted from: https://github.com/nvim-lualine/lualine.nvim/blob/master/lua/lualine/themes/onedark.lua
         local colors = {
             blue = "#61afef",
             green = "#98c379",
@@ -35,10 +34,8 @@ return {
             },
         }
 
-        -- Import color theme based on environment variable NVIM_THEME
         local env_var_nvim_theme = os.getenv("NVIM_THEME") or "nord"
 
-        -- Define a table of themes
         local themes = {
             onedark = onedark_theme,
             nord = "nord",
@@ -55,7 +52,7 @@ return {
         local filename = {
             "filename",
             file_status = true, -- displays file status (readonly status, modified status)
-            path = 0,  -- 0 = just filename, 1 = relative path, 2 = absolute path
+            path = 0,           -- 0 = just filename, 1 = relative path, 2 = absolute path
         }
 
         local hide_in_width = function()
