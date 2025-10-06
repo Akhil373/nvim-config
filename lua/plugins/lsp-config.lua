@@ -16,22 +16,28 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			local capabilities = require("cmp_nvim_lsp").default_capabilities()
-			local lspconfig = require("lspconfig")
+			-- Define default settings for all servers
+			local default_cap = require("cmp_nvim_lsp").default_capabilities()
 
-			lspconfig.lua_ls.setup({ capabilities = capabilities })
-			lspconfig.ts_ls.setup({ capabilities = capabilities })
-			lspconfig.gopls.setup({ capabilities = capabilities })
-			lspconfig.clangd.setup({
+			vim.lsp.config("*", {
+				capabilities = default_cap,
+			})
+
+			-- Configure individual servers
+			vim.lsp.config("lua_ls", {})
+			vim.lsp.config("ts_ls", {})
+			vim.lsp.config("gopls", {})
+
+			vim.lsp.config("clangd", {
 				cmd = {
 					"clangd",
 					"--query-driver=C:\\MinGW\\bin",
 					"compile-commands-dir=.",
-					"--header-insertion-never=",
+					"--header-insertion=never",
 				},
 			})
-			lspconfig.pylsp.setup({
-				capabilities = capabilities,
+
+			vim.lsp.config("pylsp", {
 				filetypes = { "python" },
 				settings = {
 					pylsp = {
@@ -49,6 +55,10 @@ return {
 				},
 			})
 
+			-- Enable all the configured servers
+			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "clangd", "pylsp" })
+
+			-- Diagnostic settings
 			vim.diagnostic.config({
 				virtual_text = true,
 				signs = true,

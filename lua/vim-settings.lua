@@ -2,6 +2,8 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
+vim.g.undotree_DiffCommand = "FC"
+
 vim.opt.guifont = "JetBrains Mono:h17"
 vim.opt.number = true
 
@@ -44,3 +46,12 @@ vim.keymap.set("n", "<C-s>", ":w<CR>")
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
 vim.keymap.set("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
+
+vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
+
+vim.o.updatetime = 250
+vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+	callback = function()
+		vim.diagnostic.open_float(nil, { focus = false })
+	end,
+})

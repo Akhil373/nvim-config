@@ -35,6 +35,13 @@ return {
 			sources = sources,
 
 			on_attach = function(client, bufnr)
+				vim.diagnostic.config({
+					virtual_text = false,
+					signs = true,
+					underline = true,
+					update_in_insert = false,
+				})
+
 				if client.supports_method("textDocument/formatting") then
 					vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
 					vim.api.nvim_create_autocmd("BufWritePre", {
