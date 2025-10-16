@@ -21,8 +21,8 @@ vim.opt.shiftwidth = 4
 
 vim.opt.clipboard = "unnamedplus"
 
-vim.o.shell = "powershell.exe"
-vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy Bypass -Command"
+-- vim.o.shell = "powershell.exe"
+-- vim.o.shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy Bypass -Command"
 
 vim.opt.scrolloff = 999
 
@@ -50,6 +50,7 @@ vim.keymap.set("n", "<space>e", "<cmd>lua vim.diagnostic.open_float()<CR>", opts
 vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
 
 vim.o.updatetime = 250
+
 vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 	callback = function()
 		vim.diagnostic.open_float(nil, { focus = false })

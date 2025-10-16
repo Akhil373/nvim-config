@@ -10,9 +10,7 @@ return {
 				extra_args = { "--extend-select", "I" },
 			}),
 			require("none-ls.formatting.ruff_format"),
-			null_ls.builtins.formatting.prettier.with({
-				filetypes = { "json", "yaml", "markdown" },
-			}),
+			null_ls.builtins.formatting.prettier,
 			null_ls.builtins.formatting.clang_format.with({
 				args = {
 					"-i",
