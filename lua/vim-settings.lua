@@ -2,7 +2,7 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
-vim.g.undotree_DiffCommand = "FC"
+vim.g.undotree_DiffCommand = "diff"
 
 vim.opt.guifont = "JetBrains Mono:h17"
 vim.opt.number = true
@@ -18,6 +18,12 @@ vim.opt.wrap = false
 vim.opt.expandtab = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldtext = ""
+vim.opt.foldlevel = 99
+-- vim.opt.foldlevelstart = 1
 
 vim.opt.clipboard = "unnamedplus"
 
@@ -35,6 +41,8 @@ vim.opt.ignorecase = true
 vim.opt.termguicolors = true
 
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
+
+vim.keymap.set("n", "<C-z>", "<nop>")
 
 vim.keymap.set("n", "<A-S-Down>", ":m .+1<CR>==", { noremap = true, silent = true })
 vim.keymap.set("n", "<A-S-Up>", ":m .-2<CR>==", { noremap = true, silent = true })
