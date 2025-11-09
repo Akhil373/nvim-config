@@ -9,21 +9,19 @@ return {
 		"mason-org/mason-lspconfig.nvim",
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "ts_ls", "ruff", "pylsp", "clangd", "gopls" },
+				ensure_installed = { "lua_ls", "ts_ls", "eslint_d", "mypy", "ruff", "pyright", "clangd", "gopls" },
 			})
 		end,
 	},
 	{
 		"neovim/nvim-lspconfig",
 		config = function()
-			-- Define default settings for all servers
 			local default_cap = require("cmp_nvim_lsp").default_capabilities()
 
 			vim.lsp.config("*", {
 				capabilities = default_cap,
 			})
 
-			-- Configure individual servers
 			vim.lsp.config("lua_ls", {})
 			vim.lsp.config("ts_ls", {})
 			vim.lsp.config("gopls", {})
@@ -31,13 +29,13 @@ return {
 			vim.lsp.config("clangd", {
 				cmd = {
 					"clangd",
-					"--query-driver=C:\\MinGW\\bin",
-					"compile-commands-dir=.",
+					-- "--query-driver=C:\\MinGW\\bin",
+					"--compile-commands-dir=.",
 					"--header-insertion=never",
 				},
 			})
 
-			vim.lsp.config("pylsp", {
+			vim.lsp.config("pyright", {
 				filetypes = { "python" },
 				settings = {
 					pylsp = {
@@ -55,10 +53,8 @@ return {
 				},
 			})
 
-			-- Enable all the configured servers
-			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "clangd", "pylsp" })
+			vim.lsp.enable({ "lua_ls", "ts_ls", "gopls", "clangd", "pyright" })
 
-			-- Diagnostic settings
 			vim.diagnostic.config({
 				virtual_text = true,
 				signs = true,

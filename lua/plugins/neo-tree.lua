@@ -10,8 +10,21 @@ return {
 		require("neo-tree").setup({
 			filesystem = {
 				filtered_items = {
-					visible = true, -- show hidden items but dimmed
-					hide_dotfiles = false, -- actually show dotfiles
+					visible = true,
+					hide_dotfiles = false,
+				},
+			},
+			event_handlers = {
+				{
+					event = "file_opened",
+					handler = function()
+						require("neo-tree").close_all()
+						require("neo-tree.command").execute({
+							action = "focus",
+							source = "buffers",
+							position = "right",
+						})
+					end,
 				},
 			},
 		})

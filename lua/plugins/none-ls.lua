@@ -12,19 +12,16 @@ return {
 			require("none-ls.formatting.ruff_format"),
 			null_ls.builtins.formatting.prettier,
 			null_ls.builtins.formatting.clang_format.with({
-				args = {
-					"-i",
-					"--style = {fallback-style=webkit, IndentWidth: 4, TabWidth: 4, AccessModifierOffset: 0, IndentAccessModifier: true}",
-				},
+				extra_args = {'-style=file'},
 			}),
 			null_ls.builtins.formatting.stylua,
 			null_ls.builtins.formatting.gofumpt,
 			null_ls.builtins.formatting.goimports,
 
-			-- null_ls.builtins.diagnostics.pylint,
 			null_ls.builtins.diagnostics.golangci_lint,
 			null_ls.builtins.diagnostics.ruff,
-			-- null_ls.builtins.diagnostics.eslint_d,
+			null_ls.builtins.diagnostics.mypy,
+			null_ls.builtins.diagnostics.eslint_d,
 		}
 
 		local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
