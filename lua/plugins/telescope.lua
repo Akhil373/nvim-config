@@ -8,6 +8,7 @@ return {
 
 			vim.keymap.set("n", "<C-p>", function()
 				builtin.find_files({
+					hidden = true,
 					cwd = vim.fn.getcwd(),
 				})
 			end, { desc = "Telescope find files" })
