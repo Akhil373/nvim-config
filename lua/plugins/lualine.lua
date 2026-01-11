@@ -21,7 +21,7 @@ return {
 		require("lualine").setup({
 			options = {
 				icons_enabled = true,
-				theme = "gruvbox-material",
+				theme = "everblush",
 				always_divide_middle = true,
 			},
 			sections = {
