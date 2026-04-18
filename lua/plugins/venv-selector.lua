@@ -5,7 +5,11 @@ return {
 		{ ",v", "<cmd>VenvSelect<cr>" },
 	},
 	opts = {
-		search = {},
+		search = {
+			cwd = {
+				command = "fd '/bin/python$' ~/mlenv/ --full-path --color never",
+			},
+		},
 		options = {
 			debug = true,
 		},
