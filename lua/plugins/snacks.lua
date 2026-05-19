@@ -2,6 +2,11 @@ return {
 	{
 		"folke/snacks.nvim",
 		opts = {
+			statuscolumn = {
+				enabled = true,
+				left = { "mark", "sign" },
+				right = { "fold", "git" },
+			},
 			picker = {
 				sources = {
 					explorer = {
@@ -9,8 +14,8 @@ return {
 						ignored = true,
 					},
 					files = {
-						hidden = true, -- show dotfiles in fuzzy finder
-						ignored = true, -- optional: show gitignored files
+						hidden = true,
+						ignored = true,
 					},
 				},
 			},

@@ -1,10 +1,4 @@
 return {
-	-- mason
-	{
-		"mason-org/mason-lspconfig.nvim",
-		opts = {},
-	},
-
 	-- mason-lspconfig
 	{
 		"mason-org/mason-lspconfig.nvim",
@@ -56,6 +50,10 @@ return {
 				},
 
 				ruff = {},
+				pyright = {
+					mason = false,
+					autostart = false,
+				},
 			},
 		},
 	},
