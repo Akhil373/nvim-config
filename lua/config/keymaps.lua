@@ -4,11 +4,6 @@
 
 vim.cmd.colorscheme("kanagawa")
 
--- Save session before quitting
-vim.keymap.set("n", "<leader>rs", ":mksession!<CR>", { noremap = true })
--- reload nvim config: "https://www.reddit.com/r/neovim/comments/15gihnd/neat_trick_for_restarting_neovim_fast_when_using/"
-vim.api.nvim_set_keymap("n", "<leader>rr", ":cq<CR>", { noremap = true, silent = true })
-
 vim.keymap.set("n", "<C-z>", "<nop>")
 
 vim.keymap.set("n", "<A-S-Down>", ":m .+1<CR>==", { noremap = true, silent = true })
