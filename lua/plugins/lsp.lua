@@ -1,7 +1,12 @@
 return {
-	-- mason-lspconfig
+	{
+		"mason-org/mason.nvim",
+		config = true,
+	},
+
 	{
 		"mason-org/mason-lspconfig.nvim",
+		dependencies = { "mason-org/mason.nvim" },
 		opts = {
 			ensure_installed = {
 				"lua_ls",
@@ -9,37 +14,37 @@ return {
 				"ruff",
 				"clangd",
 				"gopls",
+				"ty",
 			},
 			automatic_installation = false,
 		},
 	},
 
-	-- lspconfig
 	{
 		"neovim/nvim-lspconfig",
-		opts = {
-			diagnostics = {
+		dependencies = { "mason-org/mason-lspconfig.nvim" },
+		config = function()
+			local ty_path = vim.fn.exepath("ty")
+			local ruff_path = vim.fn.exepath("ruff")
+
+			-- Global UI settings for diagnostics
+			vim.diagnostic.config({
 				virtual_text = true,
 				signs = true,
 				underline = true,
 				update_in_insert = false,
 				severity_sort = true,
-			},
-			servers = {
+			})
+
+			local server_settings = {
 				lua_ls = {
 					settings = {
 						Lua = {
-							diagnostics = {
-								globals = { "vim" },
-							},
-							workspace = {
-								checkThirdParty = false,
-							},
+							diagnostics = { globals = { "vim" } },
+							workspace = { checkThirdParty = false },
 						},
 					},
 				},
-
-				gopls = {},
 
 				clangd = {
 					cmd = {
@@ -49,12 +54,30 @@ return {
 					},
 				},
 
-				ruff = {},
-				pyright = {
-					mason = false,
-					autostart = false,
+				ruff = {
+					cmd = {
+						ruff_path ~= "" and ruff_path or "ruff",
+						"server",
+					},
 				},
-			},
-		},
+
+				ty = {
+					cmd = {
+						ty_path ~= "" and ty_path or "ty",
+						"server",
+					},
+					filetypes = { "python" },
+					root_markers = { "pyproject.toml", "setup.py", ".git" },
+				},
+
+				gopls = {},
+				vtsls = {},
+			}
+
+			for server, config in pairs(server_settings) do
+				vim.lsp.config(server, config)
+				vim.lsp.enable(server)
+			end
+		end,
 	},
 }
