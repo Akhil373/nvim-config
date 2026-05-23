@@ -1,41 +1,26 @@
--- return {
--- 	"mfussenegger/nvim-lint",
--- 	config = function()
--- 		local lint = require("lint")
--- 		lint.linters_by_ft = vim.tbl_deep_extend("force", lint.linters_by_ft, {
--- 			python = { "ruff" },
--- 		})
--- 		-- auto-lint on save/enter
--- 		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
--- 			callback = function()
--- 				lint.try_lint()
--- 			end,
--- 		})
--- 	end,
--- }
 return {
-    "mfussenegger/nvim-lint",
-    config = function()
-        local lint = require("lint")
+	"mfussenegger/nvim-lint",
+	config = function()
+		local lint = require("lint")
 
-        lint.linters_by_ft = vim.tbl_deep_extend("force", lint.linters_by_ft or {}, {
-            python = { "ruff" },
+		lint.linters_by_ft = vim.tbl_deep_extend("force", lint.linters_by_ft or {}, {
+			python = { "ruff" },
 
-            go = { "golangci-lint" },
+			go = { "golangcilint" },
 
-            javascript = { "eslint_d" },
-            typescript = { "eslint_d" },
-            javascriptreact = { "eslint_d" },
-            typescriptreact = { "eslint_d" },
-        })
+			javascript = { "eslint_d" },
+			typescript = { "eslint_d" },
+			javascriptreact = { "eslint_d" },
+			typescriptreact = { "eslint_d" },
+		})
 
-        local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
+		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
-        vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
-            group = lint_augroup,
-            callback = function()
-                lint.try_lint()
-            end,
-        })
-    end,
+		vim.api.nvim_create_autocmd({ "BufWritePost", "BufReadPost" }, {
+			group = lint_augroup,
+			callback = function()
+				lint.try_lint()
+			end,
+		})
+	end,
 }
