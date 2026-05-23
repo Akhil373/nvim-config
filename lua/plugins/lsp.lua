@@ -14,7 +14,7 @@ return {
 				"ruff",
 				"clangd",
 				"gopls",
-				"ty",
+				"pyrefly",
 			},
 			automatic_installation = false,
 		},
@@ -24,7 +24,7 @@ return {
 		"neovim/nvim-lspconfig",
 		dependencies = { "mason-org/mason-lspconfig.nvim" },
 		config = function()
-			local ty_path = vim.fn.exepath("ty")
+			local pyrefly_path = vim.fn.exepath("pyrefly")
 			local ruff_path = vim.fn.exepath("ruff")
 
 			-- Global UI settings for diagnostics
@@ -61,13 +61,13 @@ return {
 					},
 				},
 
-				ty = {
+				pyrefly = {
 					cmd = {
-						ty_path ~= "" and ty_path or "ty",
-						"server",
+						pyrefly_path ~= "" and pyrefly_path or "pyrefly",
+						"lsp",
 					},
 					filetypes = { "python" },
-					root_markers = { "pyproject.toml", "setup.py", ".git" },
+					root_markers = { "pyrefly.toml", "pyproject.toml", "setup.py", ".git" },
 				},
 
 				gopls = {},
