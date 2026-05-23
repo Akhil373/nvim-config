@@ -6,10 +6,15 @@ vim.cmd.colorscheme("kanagawa")
 
 vim.keymap.set("n", "<C-z>", "<nop>")
 
-vim.keymap.set("n", "<A-S-Down>", ":m .+1<CR>==", { noremap = true, silent = true })
-vim.keymap.set("n", "<A-S-Up>", ":m .-2<CR>==", { noremap = true, silent = true })
-vim.keymap.set("v", "<A-S-Down>", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
-vim.keymap.set("v", "<A-S-Up>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
+vim.keymap.set("n", "<A-S-Down>", ":m .+1<CR>==", { noremap = true, silent = true, desc = "move current line down" })
+vim.keymap.set("n", "<A-S-Up>", ":m .-2<CR>==", { noremap = true, silent = true, desc = "move current line up" })
+vim.keymap.set(
+	"v",
+	"<A-S-Down>",
+	":m '>+1<CR>gv=gv",
+	{ noremap = true, silent = true, desc = "move selected block down" }
+)
+vim.keymap.set("v", "<A-S-Up>", ":m '<-2<CR>gv=gv", { noremap = true, silent = true, desc = "move selected block up" })
 
 vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 
@@ -19,7 +24,12 @@ vim.keymap.set("n", "<leader>e", function()
 	Snacks.explorer()
 end, { desc = "Toggle Snacks Explorer" })
 
-vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle)
+vim.keymap.set("n", "<leader><F5>", vim.cmd.UndotreeToggle, { desc = "Toggle Undotree" })
 
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Scroll down and center" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Scroll up and center" })
+
+vim.keymap.set("n", "<leader>rd", function()
+	local dir = vim.fn.expand("%:p:h")
+	require("iron.core").send("python", "%cd " .. dir .. "\n")
+end, { desc = "CD iron REPL to current file's directory" })
