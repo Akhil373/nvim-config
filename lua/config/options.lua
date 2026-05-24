@@ -5,3 +5,6 @@
 vim.opt.shiftwidth = 4
 vim.opt.tabstop = 4
 vim.opt.expandtab = true
+
+-- for molten-nvim plugin
+vim.g.python3_host_prog = vim.fn.expand("~/mlenv/bin/python")
