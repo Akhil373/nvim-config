@@ -53,7 +53,7 @@ vim.keymap.set("n", "<leader>rd", ":MoltenDelete<CR>", { silent = true, desc = "
 vim.keymap.set("n", "<leader>oh", ":MoltenHideOutput<CR>", { silent = true, desc = "hide output" })
 vim.keymap.set("n", "<leader>os", ":noautocmd MoltenEnterOutput<CR>", { silent = true, desc = "show/enter output" })
 
-vim.keymap.set("n", "<space>rc", function()
+vim.keymap.set("n", "<leader>rc", function()
 	-- 1. Search backwards for the cell delimiter.
 	local start_line = vim.fn.search("^# %%", "bcnW")
 	if start_line == 0 then
@@ -87,3 +87,81 @@ vim.keymap.set("n", "<space>rc", function()
 	-- 5. Call the Molten command without a range
 	vim.cmd("MoltenEvaluateVisual")
 end, { desc = "Molten: Evaluate Current Cell" })
+
+-- jump to next or previous cell in notebooks
+vim.keymap.set("n", "[n", function()
+	local jump_to = vim.fn.search("^# %%", "nW")
+	if jump_to == 0 then
+		jump_to = vim.api.nvim_buf_line_count(0)
+	end
+	local row = vim.api.nvim_win_get_cursor(0)[1]
+	if row > jump_to then
+		return
+	end
+
+	vim.api.nvim_win_set_cursor(0, { jump_to, 0 })
+end, { desc = "jump to next notebook cell (# %%)" })
+
+vim.keymap.set("n", "]n", function()
+	local jump_to = vim.fn.search("^# %%", "bnW")
+	if jump_to == 0 then
+		jump_to = 1
+	end
+	local row = vim.api.nvim_win_get_cursor(0)[1]
+	if row < jump_to then
+		return
+	end
+
+	vim.api.nvim_win_set_cursor(0, { jump_to, 0 })
+end, { desc = "jump to prev notebook cell (# %%)" })
+
+-- evaulate all cells below sequentially
+vim.keymap.set("n", "<leader>ra", function()
+	if #vim.fn.MoltenRunningKernels(true) == 0 then
+		vim.notify("Molten: No active kernel detected! Please choose a kernel first.", vim.log.levels.WARN)
+		vim.cmd("MoltenInit")
+		return
+	end
+
+	local delay_ms = 500
+	local old_cursor = vim.api.nvim_win_get_cursor(0)
+
+	local function run_next_cell()
+		local start_line = vim.fn.search("^# %%", "bcnW")
+		if start_line == 0 then
+			start_line = 1
+		else
+			start_line = start_line + 1
+		end
+
+		local end_line = vim.fn.search("^# %%", "nW")
+		if end_line == 0 then
+			end_line = vim.api.nvim_buf_line_count(0)
+		else
+			end_line = end_line - 1
+		end
+
+		-- SAFE SKIP: Only evaluate if the cell contains actual lines of code.
+		-- This prevents empty cells or back-to-back markers from crashing the loop.
+		if start_line <= end_line then
+			vim.api.nvim_win_set_cursor(0, { start_line, 0 })
+			vim.cmd("normal! V")
+			vim.api.nvim_win_set_cursor(0, { end_line, 0 })
+
+			local esc = vim.api.nvim_replace_termcodes("<Esc>", true, false, true)
+			vim.api.nvim_feedkeys(esc, "x", false)
+
+			vim.cmd("MoltenEvaluateVisual")
+		end
+
+		local next_cell = vim.fn.search("^# %%", "W")
+
+		if next_cell ~= 0 then
+			vim.defer_fn(run_next_cell, delay_ms)
+		else
+			print("Molten: Completed running to end of file!")
+		end
+	end
+
+	run_next_cell()
+end, { desc = "Molten: Run All Cells" })
